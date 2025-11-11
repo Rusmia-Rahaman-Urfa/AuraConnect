@@ -1,0 +1,271 @@
+/* --- CSS Variables and Global Styles --- */
+:root {
+    /* Based on the requested "AstroCollab" dark-theme  design standard */
+    --color-dark-primary: #1e2433; /* Dark background */
+    --color-dark-secondary: #2a3142; /* Card/Section background */
+    --color-accent: #5e8cf7; /* Primary blue accent */
+    --color-accent-hover: #4a75e3;
+    --color-text-light: #f4f5f7; /* Main text color */
+    --color-text-secondary: #a0a6b5; /* Paragraphs/subtle text */
+    --color-star: #ffc107; /* Star rating yellow */
+    --padding-page: 0 8%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--color-dark-primary);
+    color: var(--color-text-light);
+    line-height: 1.6;
+}
+
+h1, h2 {
+    color: var(--color-text-light);
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-text-light);
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--color-accent);
+}
+
+section {
+    padding: 60px 0;
+}
+
+/* --- Utility Classes (Buttons) --- */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    color: var(--color-text-light);
+}
+
+.btn-login {
+    background-color: transparent;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+}
+
+.btn-login:hover {
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+}
+
+/* --- Navbar (Header) --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    background-color: var(--color-dark-secondary);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+.nav-links a:not(.btn-login) {
+    margin-left: 30px;
+    font-weight: 400;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 100px 8%;
+    background-color: var(--color-dark-secondary); 
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 50%;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    max-width: 450px;
+}
+
+.hero-illustration {
+    /* Placeholder for the illustration */
+    width: 450px;
+    height: 350px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    /* In a real scenario, this would be a detailed SVG or image */
+    background-image: url('https://studentweb.bhtafe.edu.au/pluginfile.php/2304611/course/overviewfiles/digital%20skills%20pic.jpg'); 
+    background-size: cover;
+    background-position: center;
+    opacity: 0.8; 
+}
+
+/* --- How It Works Section --- */
+.how-it-works-section {
+    text-align: center;
+    padding: 80px 8%;
+}
+
+.how-it-works-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.step-card {
+    flex: 1;
+    padding: 20px;
+}
+
+.step-icon {
+    font-size: 2rem;
+    color: var(--color-accent);
+    margin-bottom: 15px;
+}
+
+.step-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.step-card p {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+/* --- Featured Skills Section --- */
+.featured-skills-section {
+    background-color: var(--color-dark-primary);
+    padding: 80px 8%;
+}
+
+.featured-skills-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.skills-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.skill-card {
+    background-color: var(--color-dark-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    /* In a real project, this would be the user's profile image */
+}
+
+.skill-card h4 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.rating {
+    color: var(--color-star);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.rating span {
+    color: var(--color-text-secondary);
+    margin-left: 5px;
+}
+
+.btn-learn-more {
+    display: block;
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+    padding: 8px 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.btn-learn-more:hover {
+    background-color: var(--color-accent-hover);
+}
+
+/* --- Footer --- */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-secondary);
+}
+
+.footer-links a {
+    color: var(--color-text-secondary);
+    margin-right: 20px;
+    font-size: 0.9rem;
+}
+
+.footer-links p {
+    display: inline;
+    font-size: 0.9rem;
+}
+
+.social-links a {
+    color: var(--color-text-secondary);
+    font-size: 1.2rem;
+    margin-left: 15px;
+}
+
+.social-links a:hover {
+    color: var(--color-accent);
+}
