@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | AuraConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow: hidden; }
+        .chat-container { height: calc(100vh - 40px); background-color: #0f172a; }
+    </style>
+</head>
+<body class="p-5">
+
+    <div class="max-w-7xl mx-auto chat-container rounded-[32px] border border-white/5 flex overflow-hidden shadow-2xl">
+        
+        <div class="w-80 border-r border-white/5 bg-[#020617]/40 hidden md:flex flex-col">
+            <div class="p-6 border-b border-white/5">
+                <h2 class="font-bold text-xl">Inbox</h2>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 space-y-3">
+                <div class="bg-indigo-600/10 border border-indigo-500/30 p-4 rounded-2xl flex items-center gap-3 cursor-pointer">
+                    <div class="w-10 h-10 bg-purple-500 rounded-full flex-shrink-0"></div>
+                    <div class="truncate">
+                        <p class="text-white text-sm font-bold">Sarah Miller</p>
+                        <p class="text-gray-500 text-xs truncate">Ready for the Python session?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6">
+                <a href="Dashboard.html" class="text-gray-500 text-sm hover:text-white">← Back Home</a>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center bg-[#020617]/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-purple-500 rounded-full"></div>
+                    <div>
+                        <p class="text-white font-bold">Sarah Miller</p>
+                        <p class="text-green-500 text-[10px] font-bold">MATCHED • ACTIVE SWAP</p>
+                    </div>
+                </div>
+                <button class="bg-white text-black text-xs font-extrabold px-5 py-2.5 rounded-xl hover:bg-gray-200 transition uppercase tracking-wider">
+                    Sign Agreement
+                </button>
+            </div>
+
+            <div class="flex-1 p-8 space-y-6 overflow-y-auto">
+                <div class="flex justify-start">
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-2xl rounded-tl-none max-w-md">
+                        <p class="text-gray-300 text-sm leading-relaxed">Hi there! I saw we matched. I can definitely teach you Figma. Would you be open to helping me with my Django backend project in return?</p>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="bg-indigo-600 p-4 rounded-2xl rounded-tr-none max-w-md shadow-lg shadow-indigo-600/20">
+                        <p class="text-white text-sm leading-relaxed">That sounds perfect. I've been looking for a design mentor! When are you free to start?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 bg-[#020617]/40 border-t border-white/5">
+                <div class="flex gap-4">
+                    <input type="text" placeholder="Discuss your swap details..." 
+                        class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-indigo-500 text-white text-sm">
+                    <button class="bg-indigo-600 w-14 h-14 rounded-2xl flex items-center justify-center hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/20">
+                        <span class="text-white text-xl font-bold">→</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
