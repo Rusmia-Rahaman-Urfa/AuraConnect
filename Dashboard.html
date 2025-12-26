@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraConnect | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; color: #f3f4f6; }
+        .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .active-tab { border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1); color: white; }
+    </style>
+</head>
+<body class="min-h-screen flex">
+
+    <aside class="w-64 border-r border-white/5 bg-[#030712] p-6 hidden md:block">
+        <div class="flex items-center gap-2 mb-10">
+            <div class="w-8 h-8 bg-indigo-600 rounded flex items-center justify-center font-bold">A</div>
+            <span class="text-lg font-bold">AuraConnect</span>
+        </div>
+        
+        <nav class="space-y-2">
+            <p class="text-[10px] text-gray-500 font-bold tracking-widest mb-4 uppercase">Navigation</p>
+            <button onclick="toggleView('user')" id="userBtn" class="w-full flex items-center gap-3 p-3 rounded-xl transition text-gray-400 hover:bg-white/5 active-tab">
+                <span>👤</span> User Dashboard
+            </button>
+            <button onclick="toggleView('admin')" id="adminBtn" class="w-full flex items-center gap-3 p-3 rounded-xl transition text-gray-400 hover:bg-white/5">
+                <span>🛡️</span> Admin Panel
+            </button>
+        </nav>
+    </aside>
+
+    <main class="flex-1 p-8 overflow-y-auto">
+        
+        <div id="userDashboard">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <h1 class="text-3xl font-bold">Welcome back, Alex!</h1>
+                    <p class="text-gray-500">Manage your skills and swap requests.</p>
+                </div>
+                <button class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 rounded-xl font-bold text-sm transition shadow-lg shadow-indigo-500/20">
+                    + List New Skill
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="glass p-6 rounded-3xl">
+                    <p class="text-gray-500 text-sm">Active Swaps</p>
+                    <p class="text-3xl font-bold mt-2">04</p>
+                </div>
+                <div class="glass p-6 rounded-3xl">
+                    <p class="text-gray-500 text-sm">Skill Equity Points</p>
+                    <p class="text-3xl font-bold mt-2 text-indigo-400">1,250</p>
+                </div>
+                <div class="glass p-6 rounded-3xl">
+                    <p class="text-gray-500 text-sm">Rating</p>
+                    <p class="text-3xl font-bold mt-2 text-yellow-500">4.9 ⭐</p>
+                </div>
+            </div>
+
+            <div class="glass rounded-3xl overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex justify-between">
+                    <h3 class="font-bold">Pending Requests</h3>
+                    <span class="text-xs text-indigo-400 underline cursor-pointer">View All</span>
+                </div>
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-white/5 text-gray-400">
+                        <tr>
+                            <th class="p-4">Skill Required</th>
+                            <th class="p-4">Partner</th>
+                            <th class="p-4">Status</th>
+                            <th class="p-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        <tr>
+                            <td class="p-4">Python Basics</td>
+                            <td class="p-4 flex items-center gap-2">
+                                <div class="w-6 h-6 bg-purple-500 rounded-full"></div> Sarah Miller
+                            </td>
+                            <td class="p-4"><span class="px-2 py-1 bg-yellow-500/10 text-yellow-500 rounded text-xs">Waiting</span></td>
+                            <td class="p-4"><button class="text-indigo-400 hover:text-white">Message</button></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">Logo Design</td>
+                            <td class="p-4 flex items-center gap-2">
+                                <div class="w-6 h-6 bg-cyan-500 rounded-full"></div> John Doe
+                            </td>
+                            <td class="p-4"><span class="px-2 py-1 bg-green-500/10 text-green-500 rounded text-xs">Accepted</span></td>
+                            <td class="p-4"><button class="text-indigo-400 hover:text-white">Start Swap</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="adminPanel" class="hidden">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-red-400 uppercase tracking-tight">Admin Command Center</h1>
+                <p class="text-gray-500">System-wide moderation and listing management.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+                <div class="glass p-4 rounded-2xl border-t-2 border-red-500/50">
+                    <p class="text-xs text-gray-500 uppercase">Reported Users</p>
+                    <p class="text-xl font-bold">02</p>
+                </div>
+                <div class="glass p-4 rounded-2xl">
+                    <p class="text-xs text-gray-500 uppercase">Total Listings</p>
+                    <p class="text-xl font-bold">1,420</p>
+                </div>
+                <div class="glass p-4 rounded-2xl border-t-2 border-indigo-500/50">
+                    <p class="text-xs text-gray-500 uppercase">Pending Verification</p>
+                    <p class="text-xl font-bold">18</p>
+                </div>
+                <div class="glass p-4 rounded-2xl">
+                    <p class="text-xs text-gray-500 uppercase">System Load</p>
+                    <p class="text-xl font-bold text-green-400">Stable</p>
+                </div>
+            </div>
+
+            <div class="glass rounded-3xl overflow-hidden shadow-2xl">
+                <div class="p-6 border-b border-white/5 bg-red-500/5">
+                    <h3 class="font-bold">Listing Moderation Queue</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                        <div class="flex gap-4 items-center">
+                            <div class="text-2xl">🚩</div>
+                            <div>
+                                <p class="text-white font-bold">Unprofessional Listing: "Quick Cash Trade"</p>
+                                <p class="text-gray-500 text-xs">Listed by: User_4402 • 2 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-4 py-2 bg-red-600 rounded-lg text-xs font-bold hover:bg-red-700 transition">Remove</button>
+                            <button class="px-4 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20 transition">Approve</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                        <div class="flex gap-4 items-center">
+                            <div class="text-2xl">👤</div>
+                            <div>
+                                <p class="text-white font-bold">Verification Request: "Dr. Elena Smith"</p>
+                                <p class="text-gray-500 text-xs">Credentials: Ph.D. in Psychology • Attached: PDF</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-4 py-2 bg-indigo-600 rounded-lg text-xs font-bold hover:bg-indigo-700 transition">Verify User</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function toggleView(view) {
+            const userView = document.getElementById('userDashboard');
+            const adminView = document.getElementById('adminPanel');
+            const userBtn = document.getElementById('userBtn');
+            const adminBtn = document.getElementById('adminBtn');
+
+            if (view === 'admin') {
+                userView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                adminBtn.classList.add('active-tab');
+                userBtn.classList.remove('active-tab');
+            } else {
+                adminView.classList.add('hidden');
+                userView.classList.remove('hidden');
+                userBtn.classList.add('active-tab');
+                adminBtn.classList.remove('active-tab');
+            }
+        }
+    </script>
+</body>
+</html>
