@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Swap Agreement | AuraConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #020617; 
+            color: #f8fafc; 
+        }
+        .glass-card { 
+            background: rgba(15, 23, 42, 0.8); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        .step-line {
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            background: #1e293b;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-12 px-4">
+    <div class="max-w-3xl mx-auto">
+        
+        <div class="text-center mb-10">
+            <div class="inline-block p-3 rounded-2xl bg-indigo-600/20 text-indigo-400 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-extrabold">Finalize Agreement</h1>
+            <p class="text-gray-400 mt-2">Set the terms for your exchange with <strong>Sarah Miller</strong></p>
+        </div>
+
+        <div class="glass-card rounded-[32px] overflow-hidden">
+            <div class="bg-indigo-600 p-1 text-center text-[10px] font-black uppercase tracking-[0.2em]">Secure Swap Protocol</div>
+            
+            <div class="p-8 md:p-12 space-y-10">
+                <div class="relative pl-12">
+                    <div class="step-line"></div>
+                    <div class="absolute left-0 top-0 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center font-bold text-sm">1</div>
+                    <h3 class="text-lg font-bold mb-4">Define the Exchange</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-gray-500 uppercase">You will provide:</label>
+                            <div class="bg-white/5 p-4 rounded-xl border border-white/10 text-sm font-medium">React Hooks Mentorship</div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-gray-500 uppercase">Sarah will provide:</label>
+                            <div class="bg-white/5 p-4 rounded-xl border border-white/10 text-sm font-medium">Spanish Conversation (B1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="step-line"></div>
+                    <div class="absolute left-0 top-0 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+                    <h3 class="text-lg font-bold mb-4">Duration & Schedule</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" placeholder="e.g., 3 Sessions" class="bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-indigo-500 text-sm">
+                        <input type="text" placeholder="e.g., 1 hour each" class="bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-indigo-500 text-sm">
+                    </div>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-0 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+                    <h3 class="text-lg font-bold mb-4">Digital Consent</h3>
+                    <div class="bg-indigo-500/5 border border-indigo-500/20 p-6 rounded-2xl mb-6">
+                        <p class="text-sm text-gray-400 leading-relaxed italic">
+                            "By clicking the button below, I agree to share my skills in a respectful manner and fulfill the sessions agreed upon. I understand that AuraTrust ratings are based on the successful completion of this swap."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex flex-col md:flex-row gap-4">
+                    <button onclick="window.location.href='messages.html'" class="flex-1 bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-2xl transition">
+                        Cancel
+                    </button>
+                    <button onclick="alert('Agreement Sent to Sarah!'); window.location.href='Dashboard.html'" class="flex-[2] bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-2xl transition shadow-lg shadow-indigo-600/20">
+                        Sign & Send Agreement
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-center text-gray-600 text-xs mt-8">Securely encrypted by AuraConnect Protocol v1.0</p>
+    </div>
+</body>
+</html>
