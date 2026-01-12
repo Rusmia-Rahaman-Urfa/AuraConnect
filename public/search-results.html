@@ -5,59 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Skills | AuraConnect</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; }
         .skill-card { background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
-        .skill-card:hover { border-color: #6366f1; transform: translateY(-4px); }
     </style>
 </head>
 <body class="p-8">
     <div class="max-w-7xl mx-auto">
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+        <header class="flex justify-between items-center mb-12">
             <div>
                 <h1 class="text-4xl font-extrabold text-white mb-2">Explore Skills</h1>
-                <p class="text-gray-500">Discover experts ready to trade knowledge.</p>
+                <p class="text-gray-500">Live listings from the database.</p>
             </div>
-            <div class="flex gap-4 w-full md:w-auto">
-                <input type="text" placeholder="Search skills (e.g. Figma)..." class="bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-indigo-500 text-sm w-full md:w-80">
-                <button class="bg-indigo-600 px-6 py-4 rounded-2xl font-bold hover:bg-indigo-500 transition">Filter</button>
-            </div>
+            <a href="list-skill.html" class="bg-indigo-600 px-6 py-3 rounded-xl font-bold">Post a Skill</a>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="skill-card p-6 rounded-[32px]">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-12 h-12 bg-purple-600 rounded-2xl flex items-center justify-center font-bold">JD</div>
-                    <div>
-                        <h4 class="font-bold text-white text-lg">Logo Design</h4>
-                        <p class="text-gray-500 text-xs">by John Doe • 4.8 ⭐</p>
-                    </div>
-                </div>
-                <p class="text-gray-400 text-sm mb-6 line-clamp-2">I can teach you Adobe Illustrator and basic branding principles for your startup.</p>
-                <div class="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl mb-6">
-                    <p class="text-[10px] text-indigo-400 font-bold uppercase mb-1">Looking For</p>
-                    <p class="text-white text-xs">React/Next.js help</p>
-                </div>
-                <a href="messages.html" class="block text-center w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-gray-200 transition">Request Swap</a>
-            </div>
-
-            <div class="skill-card p-6 rounded-[32px]">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-12 h-12 bg-cyan-600 rounded-2xl flex items-center justify-center font-bold">EM</div>
-                    <div>
-                        <h4 class="font-bold text-white text-lg">Spanish B1</h4>
-                        <p class="text-gray-500 text-xs">by Elena M. • 5.0 ⭐</p>
-                    </div>
-                </div>
-                <p class="text-gray-400 text-sm mb-6 line-clamp-2">Fluent Spanish speaker offering conversational practice and grammar basics.</p>
-                <div class="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl mb-6">
-                    <p class="text-[10px] text-indigo-400 font-bold uppercase mb-1">Looking For</p>
-                    <p class="text-white text-xs">Photography/Editing</p>
-                </div>
-                <a href="messages.html" class="block text-center w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-gray-200 transition">Request Swap</a>
-            </div>
+        <div id="skillsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <p class="text-gray-500">Loading skills...</p>
         </div>
     </div>
+
+    <script>
+        async function loadSkills() {
+            const response = await fetch('/api/skills');
+            const skills = await response.json();
+            const container = document.getElementById('skillsContainer');
+            container.innerHTML = ''; // Clear loading text
+
+            skills.forEach(skill => {
+                const card = `
+                    <div class="skill-card p-6 rounded-[32px]">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center font-bold">
+                                ${skill.title.charAt(0)}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg">${skill.title}</h4>
+                                <p class="text-gray-500 text-xs">${skill.category} • ${skill.proficiency}</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6">${skill.description}</p>
+                        <div class="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl mb-6">
+                            <p class="text-[10px] text-indigo-400 font-bold uppercase mb-1">Looking For</p>
+                            <p class="text-white text-xs">${skill.seeking}</p>
+                        </div>
+                        <button class="block text-center w-full bg-white text-black font-bold py-3 rounded-xl">Request Swap</button>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        loadSkills();
+    </script>
 </body>
 </html>
