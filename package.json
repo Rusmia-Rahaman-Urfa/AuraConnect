@@ -1,9 +1,11 @@
 {
   "name": "auraconnect",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Skill-sharing community platform",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,7 +15,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/Rusmia-Rahaman-Urfa/AuraConnect/issues"
   },
