@@ -52,8 +52,8 @@
 <body>
     <div class="bg-glow"></div>
 
-    <div class="px-4">
-        <a href="index.html" class="inline-flex items-center text-gray-500 hover:text-white mb-6 text-sm font-medium transition">
+    <div class="px-4 w-full flex flex-col items-center">
+        <a href="index.html" class="inline-flex items-center text-gray-500 hover:text-white mb-6 text-sm font-medium transition self-start md:ml-[calc(50%-250px)]">
             <span class="mr-2">←</span> Back to Landing Page
         </a>
 
@@ -64,30 +64,27 @@
                 <p class="text-gray-400 text-sm mt-1">Start trading your skills today</p>
             </div>
 
-<script>
-document.querySelector('form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const name = document.querySelectorAll('input')[0].value;
-    const email = document.querySelectorAll('input')[1].value;
-    const password = document.querySelectorAll('input')[2].value;
-
-    const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-    });
-
-    const data = await response.json();
-    if (data.id) {
-        alert('Registration Successful!');
-        window.location.href = 'sign-in.html';
-    } else {
-        alert('Error: ' + data.error);
-    }
-});
-</script>
-
+            <form id="registerForm" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Full Name</label>
+                    <input type="text" id="userName" placeholder="John Doe" required 
+                        class="input-field w-full p-4 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Email Address</label>
+                    <input type="email" id="userEmail" placeholder="name@company.com" required 
+                        class="input-field w-full p-4 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Password</label>
+                    <input type="password" id="userPassword" placeholder="••••••••" required 
+                        class="input-field w-full p-4 rounded-xl text-sm">
+                </div>
+                
+                <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-cyan-600/20 active:scale-[0.98] mt-2">
+                    Create Account
+                </button>
+            </form>
             <div class="mt-8 text-center pt-6 border-t border-white/5">
                 <p class="text-gray-400 text-sm">
                     Already a member? <a href="sign-in.html" class="text-cyan-400 font-bold hover:underline">Log in</a>
@@ -95,5 +92,36 @@ document.querySelector('form').addEventListener('submit', async (e) => {
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Getting values by ID is safer than querySelectorAll
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
+
+            try {
+                const response = await fetch('/api/users/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('Registration Successful!');
+                    window.location.href = 'sign-in.html';
+                } else {
+                    alert('Error: ' + (data.error || 'Something went wrong'));
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                alert('Connection to server failed. Is your Node.js server running?');
+            }
+        });
+    </script>
 </body>
 </html>
