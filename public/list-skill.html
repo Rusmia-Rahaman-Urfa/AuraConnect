@@ -82,11 +82,12 @@
                 user_id: 1 // For now, we hardcode user 1 until you have a login session
             };
 
-            const response = await fetch('/api/skills', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(skillData)
-            });
+        // In list-skill.html
+const response = await fetch('/api/skills', { // This matches your app.post('/api/skills')
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(skillData)
+});
 
             const result = await response.json();
             if (result.id) {
