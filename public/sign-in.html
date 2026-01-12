@@ -9,7 +9,7 @@
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #020617; /* Deeper Black-Blue */
+            background-color: #020617; 
             color: #f8fafc;
             display: flex;
             align-items: center;
@@ -18,7 +18,7 @@
             margin: 0;
         }
         .auth-card {
-            background-color: #0f172a; /* Solid Dark Navy */
+            background-color: #0f172a; 
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             width: 100%;
@@ -64,10 +64,10 @@
                 <p class="text-gray-400 text-sm mt-1">Access your skill-sharing dashboard</p>
             </div>
 
-            <form onsubmit="event.preventDefault(); window.location.href='Dashboard.html';" class="space-y-4">
+            <form id="loginForm" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Email</label>
-                    <input type="email" required placeholder="your@email.com" class="input-field w-full p-4 rounded-xl text-sm">
+                    <input type="email" id="loginEmail" required placeholder="your@email.com" class="input-field w-full p-4 rounded-xl text-sm">
                 </div>
                 
                 <div>
@@ -75,7 +75,7 @@
                         <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Password</label>
                         <a href="#" class="text-xs text-indigo-400 hover:text-indigo-300">Forgot?</a>
                     </div>
-                    <input type="password" required placeholder="••••••••" class="input-field w-full p-4 rounded-xl text-sm">
+                    <input type="password" id="loginPassword" required placeholder="••••••••" class="input-field w-full p-4 rounded-xl text-sm">
                 </div>
 
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-indigo-600/20">
@@ -90,5 +90,38 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                // This matches the route in your server.js
+                const response = await fetch('/api/users/login', { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Save user data (including name) so Dashboard can use it
+                    localStorage.setItem('auraUser', JSON.stringify(data.user));
+                    
+                    // Direct to dashboard
+                    window.location.href = 'Dashboard.html'; 
+                } else {
+                    alert('❌ Login Failed: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Connection error! Please make sure your Node.js server is running in the terminal.');
+            }
+        });
+    </script>
 </body>
 </html>
