@@ -10,151 +10,157 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; color: #f3f4f6; }
         .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .active-tab { border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1); color: white; }
+        .nav-link:hover { color: #6366f1; }
     </style>
 </head>
-<body class="min-h-screen flex">
+<body class="min-h-screen flex flex-col">
 
-    <aside class="w-64 border-r border-white/5 bg-[#030712] p-6 hidden md:block">
-        <div class="flex items-center gap-2 mb-10">
-            <div class="w-8 h-8 bg-indigo-600 rounded flex items-center justify-center font-bold">A</div>
-            <span class="text-lg font-bold">AuraConnect</span>
+    <header class="w-full border-b border-white/5 bg-[#030712]/80 backdrop-blur-md sticky top-0 z-50 p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-indigo-600 rounded flex items-center justify-center font-bold">A</div>
+                <span class="text-lg font-bold tracking-tight">AuraConnect</span>
+            </div>
+            
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+                <a href="Dashboard.html" class="text-white">Dashboard</a>
+                <a href="search-results.html" class="nav-link transition">Explore Skills</a>
+                <a href="messages.html" class="nav-link transition">Messages</a>
+                <a href="profile.html" class="nav-link transition">My Profile</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button onclick="window.location.href='index.html'" class="text-xs text-gray-500 hover:text-red-400 transition font-bold uppercase tracking-widest">Logout</button>
+                <div onclick="window.location.href='profile.html'" class="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-cyan-400 rounded-full cursor-pointer border-2 border-white/10 hover:border-indigo-500 transition"></div>
+            </div>
         </div>
-        
-        <nav class="space-y-2">
-            <p class="text-[10px] text-gray-500 font-bold tracking-widest mb-4 uppercase">Navigation</p>
-            <button onclick="toggleView('user')" id="userBtn" class="w-full flex items-center gap-3 p-3 rounded-xl transition text-gray-400 hover:bg-white/5 active-tab">
-                <span>👤</span> User Dashboard
-            </button>
-            <button onclick="toggleView('admin')" id="adminBtn" class="w-full flex items-center gap-3 p-3 rounded-xl transition text-gray-400 hover:bg-white/5">
-                <span>🛡️</span> Admin Panel
-            </button>
-        </nav>
-    </aside>
+    </header>
 
-    <main class="flex-1 p-8 overflow-y-auto">
-        
-        <div id="userDashboard">
-            <div class="flex justify-between items-end mb-10">
-                <div>
-                    <h1 class="text-3xl font-bold">Welcome back, Alex!</h1>
-                    <p class="text-gray-500">Manage your skills and swap requests.</p>
-                </div>
-                <button class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 rounded-xl font-bold text-sm transition shadow-lg shadow-indigo-500/20">
-                    + List New Skill
+    <div class="flex flex-1">
+        <aside class="w-64 border-r border-white/5 bg-[#030712] p-6 hidden lg:block">
+            <nav class="space-y-2">
+                <p class="text-[10px] text-gray-500 font-bold tracking-widest mb-4 uppercase">View Mode</p>
+                <button onclick="toggleView('user')" id="userBtn" class="w-full flex items-center gap-3 p-3 rounded-xl transition text-gray-400 hover:bg-white/5 active-tab">
+                    <span>👤</span> User Dashboard
                 </button>
-            </div>
+                <button onclick="toggleView('admin')" id="adminBtn" class="w-full flex items-center gap-3 p-3 rounded-xl transition text-gray-400 hover:bg-white/5">
+                    <span>🛡️</span> Admin Panel
+                </button>
+                <hr class="border-white/5 my-6">
+                <p class="text-[10px] text-gray-500 font-bold tracking-widest mb-4 uppercase">Quick Actions</p>
+                <a href="list-skill.html" class="block w-full p-3 text-sm text-gray-400 hover:text-white transition">⊕ List a New Skill</a>
+                <a href="search-results.html" class="block w-full p-3 text-sm text-gray-400 hover:text-white transition">🔍 Find a Partner</a>
+            </nav>
+        </aside>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="glass p-6 rounded-3xl">
-                    <p class="text-gray-500 text-sm">Active Swaps</p>
-                    <p class="text-3xl font-bold mt-2">04</p>
-                </div>
-                <div class="glass p-6 rounded-3xl">
-                    <p class="text-gray-500 text-sm">Skill Equity Points</p>
-                    <p class="text-3xl font-bold mt-2 text-indigo-400">1,250</p>
-                </div>
-                <div class="glass p-6 rounded-3xl">
-                    <p class="text-gray-500 text-sm">Rating</p>
-                    <p class="text-3xl font-bold mt-2 text-yellow-500">4.9 ⭐</p>
-                </div>
-            </div>
-
-            <div class="glass rounded-3xl overflow-hidden">
-                <div class="p-6 border-b border-white/5 flex justify-between">
-                    <h3 class="font-bold">Pending Requests</h3>
-                    <span class="text-xs text-indigo-400 underline cursor-pointer">View All</span>
-                </div>
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-white/5 text-gray-400">
-                        <tr>
-                            <th class="p-4">Skill Required</th>
-                            <th class="p-4">Partner</th>
-                            <th class="p-4">Status</th>
-                            <th class="p-4">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-white/5">
-                        <tr>
-                            <td class="p-4">Python Basics</td>
-                            <td class="p-4 flex items-center gap-2">
-                                <div class="w-6 h-6 bg-purple-500 rounded-full"></div> Sarah Miller
-                            </td>
-                            <td class="p-4"><span class="px-2 py-1 bg-yellow-500/10 text-yellow-500 rounded text-xs">Waiting</span></td>
-                            <td class="p-4"><button class="text-indigo-400 hover:text-white">Message</button></td>
-                        </tr>
-                        <tr>
-                            <td class="p-4">Logo Design</td>
-                            <td class="p-4 flex items-center gap-2">
-                                <div class="w-6 h-6 bg-cyan-500 rounded-full"></div> John Doe
-                            </td>
-                            <td class="p-4"><span class="px-2 py-1 bg-green-500/10 text-green-500 rounded text-xs">Accepted</span></td>
-                            <td class="p-4"><button class="text-indigo-400 hover:text-white">Start Swap</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div id="adminPanel" class="hidden">
-            <div class="mb-10">
-                <h1 class="text-3xl font-bold text-red-400 uppercase tracking-tight">Admin Command Center</h1>
-                <p class="text-gray-500">System-wide moderation and listing management.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
-                <div class="glass p-4 rounded-2xl border-t-2 border-red-500/50">
-                    <p class="text-xs text-gray-500 uppercase">Reported Users</p>
-                    <p class="text-xl font-bold">02</p>
-                </div>
-                <div class="glass p-4 rounded-2xl">
-                    <p class="text-xs text-gray-500 uppercase">Total Listings</p>
-                    <p class="text-xl font-bold">1,420</p>
-                </div>
-                <div class="glass p-4 rounded-2xl border-t-2 border-indigo-500/50">
-                    <p class="text-xs text-gray-500 uppercase">Pending Verification</p>
-                    <p class="text-xl font-bold">18</p>
-                </div>
-                <div class="glass p-4 rounded-2xl">
-                    <p class="text-xs text-gray-500 uppercase">System Load</p>
-                    <p class="text-xl font-bold text-green-400">Stable</p>
-                </div>
-            </div>
-
-            <div class="glass rounded-3xl overflow-hidden shadow-2xl">
-                <div class="p-6 border-b border-white/5 bg-red-500/5">
-                    <h3 class="font-bold">Listing Moderation Queue</h3>
-                </div>
-                <div class="p-6 space-y-4">
-                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <div class="flex gap-4 items-center">
-                            <div class="text-2xl">🚩</div>
-                            <div>
-                                <p class="text-white font-bold">Unprofessional Listing: "Quick Cash Trade"</p>
-                                <p class="text-gray-500 text-xs">Listed by: User_4402 • 2 hours ago</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <button class="px-4 py-2 bg-red-600 rounded-lg text-xs font-bold hover:bg-red-700 transition">Remove</button>
-                            <button class="px-4 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20 transition">Approve</button>
-                        </div>
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+            
+            <div id="userDashboard">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-white">Welcome back, Alex!</h1>
+                        <p class="text-gray-500">You have 2 new swap requests today.</p>
                     </div>
-                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <div class="flex gap-4 items-center">
-                            <div class="text-2xl">👤</div>
-                            <div>
-                                <p class="text-white font-bold">Verification Request: "Dr. Elena Smith"</p>
-                                <p class="text-gray-500 text-xs">Credentials: Ph.D. in Psychology • Attached: PDF</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <button class="px-4 py-2 bg-indigo-600 rounded-lg text-xs font-bold hover:bg-indigo-700 transition">Verify User</button>
-                        </div>
+                    <button onclick="window.location.href='list-skill.html'" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-xl font-bold text-sm transition shadow-lg shadow-indigo-500/20 w-full md:w-auto">
+                        + List New Skill
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+                    <div class="glass p-6 rounded-3xl">
+                        <p class="text-gray-500 text-xs font-bold uppercase">Active Swaps</p>
+                        <p class="text-3xl font-bold mt-2">04</p>
+                    </div>
+                    <div class="glass p-6 rounded-3xl border-b-4 border-indigo-500">
+                        <p class="text-gray-500 text-xs font-bold uppercase">AuraPoints</p>
+                        <p class="text-3xl font-bold mt-2 text-indigo-400">1,250</p>
+                    </div>
+                    <div class="glass p-6 rounded-3xl">
+                        <p class="text-gray-500 text-xs font-bold uppercase">Trust Score</p>
+                        <p class="text-3xl font-bold mt-2 text-yellow-500">4.9 ⭐</p>
+                    </div>
+                </div>
+
+                <div class="glass rounded-[32px] overflow-hidden">
+                    <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                        <h3 class="font-bold">Active Swap Requests</h3>
+                        <a href="messages.html" class="text-xs text-indigo-400 hover:text-white transition font-bold uppercase">View Inbox</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-white/5 text-gray-400">
+                                <tr>
+                                    <th class="p-4">Skill Exchange</th>
+                                    <th class="p-4">Partner</th>
+                                    <th class="p-4">Status</th>
+                                    <th class="p-4 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr>
+                                    <td class="p-4 font-medium text-white">Python Basics</td>
+                                    <td class="p-4 flex items-center gap-2">
+                                        <div class="w-6 h-6 bg-purple-500 rounded-full"></div> Sarah Miller
+                                    </td>
+                                    <td class="p-4"><span class="px-2 py-1 bg-yellow-500/10 text-yellow-500 rounded-lg text-[10px] font-bold uppercase">Waiting</span></td>
+                                    <td class="p-4 text-right"><button onclick="window.location.href='messages.html'" class="text-indigo-400 font-bold hover:underline">Message</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-white">Logo Design</td>
+                                    <td class="p-4 flex items-center gap-2">
+                                        <div class="w-6 h-6 bg-cyan-500 rounded-full"></div> John Doe
+                                    </td>
+                                    <td class="p-4"><span class="px-2 py-1 bg-green-500/10 text-green-500 rounded-lg text-[10px] font-bold uppercase">Accepted</span></td>
+                                    <td class="p-4 text-right"><button onclick="window.location.href='swap-agreement.html'" class="bg-white/5 px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-600 transition">Finalize Agreement</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </main>
+            <div id="adminPanel" class="hidden">
+                <div class="mb-10">
+                    <h1 class="text-3xl font-bold text-red-400 uppercase tracking-tight">Moderation Suite</h1>
+                    <p class="text-gray-500">Review system flags and verify new experts.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                    <div class="glass p-4 rounded-2xl border-t-2 border-red-500">
+                        <p class="text-[10px] text-gray-500 font-bold uppercase">Reported</p>
+                        <p class="text-xl font-bold">02</p>
+                    </div>
+                    <div class="glass p-4 rounded-2xl border-t-2 border-indigo-500">
+                        <p class="text-[10px] text-gray-500 font-bold uppercase">Pending</p>
+                        <p class="text-xl font-bold">18</p>
+                    </div>
+                </div>
+
+                <div class="glass rounded-[32px] overflow-hidden border border-red-500/20 shadow-2xl shadow-red-500/5">
+                    <div class="p-6 border-b border-white/5 bg-red-500/5 flex justify-between items-center">
+                        <h3 class="font-bold text-red-400">Moderation Queue</h3>
+                        <span class="text-[10px] bg-red-500/20 text-red-500 px-2 py-1 rounded font-black tracking-widest uppercase">High Priority</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                            <div class="flex gap-4 items-center">
+                                <div class="w-10 h-10 bg-red-500/20 flex items-center justify-center rounded-xl">🚩</div>
+                                <div>
+                                    <p class="text-white font-bold text-sm">Flagged Listing: "Quick Cash Trade"</p>
+                                    <p class="text-gray-500 text-[10px]">Policy Violation: Non-skill exchange</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-2 bg-red-600 rounded-lg text-[10px] font-bold uppercase tracking-tight hover:bg-red-700 transition">Delete</button>
+                                <button class="px-3 py-2 bg-white/10 rounded-lg text-[10px] font-bold uppercase tracking-tight hover:bg-white/20 transition">Ignore</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
 
     <script>
         function toggleView(view) {
