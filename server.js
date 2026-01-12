@@ -17,10 +17,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // --- 1. USER AUTHENTICATION ROUTES ---
 
-// Registration: Saves new users to the 'users' table
 app.post('/api/users/register', (req, res) => {
     const { name, email, password } = req.body;
-
     if (!name || !email || !password) {
         return res.status(400).json({ error: 'Please provide name, email, and password.' });
     }
@@ -38,23 +36,18 @@ app.post('/api/users/register', (req, res) => {
     });
 });
 
-// Login: Verifies users from the 'users' table
 app.post('/api/users/login', (req, res) => {
     const { email, password } = req.body;
     const sql = 'SELECT * FROM users WHERE email = ? AND password = ?';
-    
     db.query(sql, [email, password], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         if (results.length === 0) return res.status(401).json({ error: 'Invalid email or password.' });
-        
-        // In a real app, you would send a token here. For now, we send user data.
         res.json({ message: '✅ Login successful', user: results[0] });
     });
 });
 
 // --- 2. SKILL ECONOMY ROUTES ---
 
-// GET all skills: Pulls every skill from 'skills' table for search-results.html
 app.get('/api/skills', (req, res) => {
     const sql = 'SELECT * FROM skills ORDER BY created_at DESC';
     db.query(sql, (err, results) => {
@@ -63,20 +56,39 @@ app.get('/api/skills', (req, res) => {
     });
 });
 
-// POST a new skill: Saves form data from list-skill.html to 'skills' table
 app.post('/api/skills', (req, res) => {
     const { user_id, title, category, proficiency, description, seeking } = req.body;
     const sql = `INSERT INTO skills (user_id, title, category, proficiency, description, seeking) VALUES (?, ?, ?, ?, ?, ?)`;
-    
     db.query(sql, [user_id, title, category, proficiency, description, seeking], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json({ message: '✅ Skill successfully listed', id: result.insertId });
     });
 });
 
-// --- 3. SERVING THE FRONTEND ---
+// --- 3. SWAP REQUEST ROUTE (FIXED) ---
 
-// Redirects the base URL to your Landing Page
+app.post('/api/requests', (req, res) => {
+    const { sender_id, skill_id } = req.body;
+
+    if (!sender_id || !skill_id) {
+        return res.status(400).json({ error: 'Missing sender_id or skill_id' });
+    }
+
+    // Using db.query to match your existing database connection style
+    const sql = 'INSERT INTO requests (sender_id, skill_id, status) VALUES (?, ?, "pending")';
+    
+    db.query(sql, [sender_id, skill_id], (err, result) => {
+        if (err) {
+            console.error('❌ Database Error:', err.message);
+            return res.status(500).json({ error: 'Database failed to save request.' });
+        }
+        console.log(`🚀 New Swap Request: Sender ${sender_id} wants Skill ${skill_id}`);
+        res.status(201).json({ message: '✅ Request sent successfully!', id: result.insertId });
+    });
+});
+
+// --- 4. SERVING THE FRONTEND ---
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -88,6 +100,6 @@ app.listen(PORT, () => {
     ----------------------------------
     📍 Local URL: http://localhost:${PORT}
     📂 Frontend Folder: /public
-    🗄️ Database: Connected to auraconnect_db
+    🗄️ Database: Connected via db.js
     `);
 });
