@@ -7,57 +7,159 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; }
-        .skill-card { background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; color: #f3f4f6; }
+        .skill-card { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
+        .skill-card:hover { transform: translateY(-5px); border-color: #6366f1; }
+        .search-input { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .search-input:focus { border-color: #6366f1; outline: none; background: rgba(255, 255, 255, 0.05); }
     </style>
 </head>
-<body class="p-8">
-    <div class="max-w-7xl mx-auto">
-        <header class="flex justify-between items-center mb-12">
-            <div>
-                <h1 class="text-4xl font-extrabold text-white mb-2">Explore Skills</h1>
-                <p class="text-gray-500">Live listings from the database.</p>
-            </div>
-            <a href="list-skill.html" class="bg-indigo-600 px-6 py-3 rounded-xl font-bold">Post a Skill</a>
-        </header>
+<body class="min-h-screen">
 
-        <div id="skillsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <p class="text-gray-500">Loading skills...</p>
+    <nav class="p-6 border-b border-white/5 bg-[#030712]/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="Dashboard.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-indigo-600 rounded flex items-center justify-center font-bold">A</div>
+                <span class="text-lg font-bold">AuraConnect</span>
+            </a>
+            <div class="flex gap-6 items-center">
+                <a href="Dashboard.html" class="text-gray-400 hover:text-white transition text-sm font-medium">Dashboard</a>
+                <a href="list-skill.html" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg text-sm font-bold transition">List a Skill</a>
+            </div>
         </div>
-    </div>
+    </nav>
+
+    <header class="max-w-7xl mx-auto px-6 py-12">
+        <div class="max-w-2xl mb-12">
+            <h1 class="text-4xl font-extrabold text-white mb-4 tracking-tight">Discover Skills</h1>
+            <p class="text-gray-400 text-lg">Find the perfect partner to exchange knowledge with. Browse listings or use the search bar below.</p>
+        </div>
+        
+        <div class="flex flex-col md:flex-row gap-4 mb-12">
+            <div class="relative flex-1">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search by skill, category, or description..." 
+                    class="search-input w-full pl-12 pr-6 py-4 rounded-2xl text-white transition-all">
+            </div>
+        </div>
+
+        <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <p class="text-gray-500 col-span-full text-center py-20 animate-pulse">Fetching the latest skills...</p>
+        </div>
+    </header>
 
     <script>
-        async function loadSkills() {
-            const response = await fetch('/api/skills');
-            const skills = await response.json();
-            const container = document.getElementById('skillsContainer');
-            container.innerHTML = ''; // Clear loading text
+        // Global variable to store all fetched skills
+        let allSkills = [];
 
-            skills.forEach(skill => {
-                const card = `
-                    <div class="skill-card p-6 rounded-[32px]">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center font-bold">
-                                ${skill.title.charAt(0)}
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white text-lg">${skill.title}</h4>
-                                <p class="text-gray-500 text-xs">${skill.category} • ${skill.proficiency}</p>
-                            </div>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('skillsGrid');
+            const searchInput = document.getElementById('searchInput');
+
+            try {
+                // 1. Fetch real skills from your XAMPP/Node server
+                const response = await fetch('/api/skills');
+                allSkills = await response.json();
+
+                // 2. Render all skills initially
+                renderSkills(allSkills);
+
+                // 3. Setup Live Filter
+                searchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    
+                    const filtered = allSkills.filter(skill => 
+                        skill.title.toLowerCase().includes(searchTerm) || 
+                        skill.category.toLowerCase().includes(searchTerm) ||
+                        skill.description.toLowerCase().includes(searchTerm)
+                    );
+
+                    renderSkills(filtered);
+                });
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-20">
+                        <p class="text-red-400 font-bold mb-2">Oops! Something went wrong.</p>
+                        <p class="text-gray-500 text-sm">Make sure your Node.js server is running.</p>
+                    </div>`;
+            }
+        });
+
+        // Function to build and display cards
+        function renderSkills(skillsList) {
+            const grid = document.getElementById('skillsGrid');
+            grid.innerHTML = '';
+
+            if (skillsList.length === 0) {
+                grid.innerHTML = `<p class="text-gray-500 col-span-full text-center py-20">No matching skills found. Try a different keyword!</p>`;
+                return;
+            }
+
+            skillsList.forEach(skill => {
+                const card = document.createElement('div');
+                card.className = 'skill-card p-6 rounded-[24px] flex flex-col justify-between';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase rounded-full tracking-wider">
+                                ${skill.category}
+                            </span>
+                            <span class="text-yellow-500 text-xs font-bold bg-yellow-500/10 px-2 py-1 rounded-lg">
+                                ★ ${skill.proficiency}
+                            </span>
                         </div>
-                        <p class="text-gray-400 text-sm mb-6">${skill.description}</p>
-                        <div class="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl mb-6">
-                            <p class="text-[10px] text-indigo-400 font-bold uppercase mb-1">Looking For</p>
-                            <p class="text-white text-xs">${skill.seeking}</p>
+                        <h3 class="text-xl font-bold text-white mb-2">${skill.title}</h3>
+                        <p class="text-gray-400 text-sm mb-6 line-clamp-3 leading-relaxed">${skill.description}</p>
+                    </div>
+                    
+                    <div class="pt-6 border-t border-white/5">
+                        <p class="text-[10px] text-gray-500 font-bold uppercase mb-3 tracking-widest">Seeking in return</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-semibold text-indigo-300">${skill.seeking}</span>
+                            <button onclick="connectRequest(${skill.id})" 
+                                class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl font-bold transition shadow-lg shadow-indigo-600/10">
+                                Connect
+                            </button>
                         </div>
-                        <button class="block text-center w-full bg-white text-black font-bold py-3 rounded-xl">Request Swap</button>
                     </div>
                 `;
-                container.innerHTML += card;
+                grid.appendChild(card);
             });
         }
 
-        loadSkills();
+        // Real Connect logic linked to the 'requests' table
+        async function connectRequest(skillId) {
+            const userData = JSON.parse(localStorage.getItem('auraUser'));
+
+            if (!userData) {
+                alert("Please log in to send a swap request!");
+                window.location.href = 'sign-in.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/requests', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sender_id: userData.id,
+                        skill_id: skillId
+                    })
+                });
+
+                if (response.ok) {
+                    alert('✅ Swap request sent! The user has been notified.');
+                } else {
+                    const errorData = await response.json();
+                    alert('❌ Error: ' + (errorData.error || 'Failed to send request.'));
+                }
+            } catch (error) {
+                console.error('Request error:', error);
+                alert('Connection failed. Is your server running?');
+            }
+        }
     </script>
 </body>
 </html>
